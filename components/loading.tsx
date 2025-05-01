@@ -13,7 +13,7 @@ function Loading() {
          transition: {
             duration: 0.8 + i * 0.2, // Her çubuk için farklı süre
             repeat: Infinity,
-            repeatType: "mirror" as "mirror", // Gidip gelme efekti - TS hatası için cast
+            repeatType: "mirror" as const, // Gidip gelme efekti - ESLint kuralı için 'as const' kullan
             ease: "easeInOut", // Yumuşak geçiş
          },
       }),
