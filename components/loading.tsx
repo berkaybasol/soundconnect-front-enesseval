@@ -32,7 +32,7 @@ function Loading() {
          <div className="absolute inset-0 bg-black/85 z-[-1]"></div>
 
          {/* Üst Bölüm: Animasyonlu Logo ve Metin */}
-         <div className="flex items-center space-x-4 md:space-x-6 mb-8 md:mb-12">
+         <div className="flex items-center space-x-2 md:space-x-4 mb-8 md:mb-12">
             {" "}
             {/* Altına boşluk ekle */}
             {/* Animasyonlu Çubuklar */}
@@ -49,9 +49,9 @@ function Loading() {
                ))}
             </div>
             {/* Metin */}
-            <div className="flex flex-col">
-               <p className="uppercase text-4xl md:text-5xl font-bold bg-gradient-to-b from-[#fd8a49] to-[#8d75ff] bg-clip-text text-transparent leading-tight md:leading-tight">sound</p>
-               <p className="uppercase text-4xl md:text-5xl font-bold bg-gradient-to-b from-[#fd8a49] to-[#8d75ff] bg-clip-text text-transparent leading-tight md:leading-tight">connect</p>
+            <div className="flex flex-col items-center bg-gradient-to-br from-[#fd8a49] to-[#8d75ff] bg-clip-text">
+               <p className="uppercase text-4xl md:text-5xl font-bold text-transparent tracking-tight leading-tight md:leading-tight">sound</p>
+               <p className="uppercase text-4xl md:text-5xl font-bold text-transparent tracking-tight leading-tight md:leading-tight">connect</p>
             </div>
          </div>
 
@@ -63,7 +63,7 @@ function Loading() {
 
             {/* Butonlar */}
             {/* Butonlara cursor-pointer, sabit yükseklik (h-10) ve içerik ortalama ekle */}
-            <button className="w-full h-10 rounded-lg text-white font-semibold bg-gradient-to-r from-[#fd8a49] to-[#ff6a97] hover:opacity-90 transition-opacity flex items-center justify-center cursor-pointer">
+            <button className="w-full h-10 rounded-lg text-white font-semibold bg-gradient-to-br from-[#fd8a49] to-[#8d75ff] hover:opacity-90 transition-opacity flex items-center justify-center cursor-pointer">
                Giriş Yap
             </button>
             <button className="w-full h-10 rounded-lg text-white font-semibold bg-white/10 border border-white/20 hover:bg-white/20 transition-colors flex items-center justify-center cursor-pointer">
