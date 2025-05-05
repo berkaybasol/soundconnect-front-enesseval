@@ -55,10 +55,12 @@ export const registerUser = async (inputData: RegisterInput) => {
                // Diğer durumlarda JSON'a çevirmeyi dene veya status kodunu kullan
                try {
                   apiErrorMessage = JSON.stringify(responseData);
-               } catch (e) {
+               } catch {
+                  // 'e' değişkeni kaldırıldı
                   // JSON'a çevrilemezse status kodunda kal
                }
             }
+            // Hatalı ekstra parantez kaldırıldı
             throw new Error(apiErrorMessage);
          } else if (axiosError.request) {
             // İstek yapıldı ama yanıt alınamadı (örn. ağ hatası)

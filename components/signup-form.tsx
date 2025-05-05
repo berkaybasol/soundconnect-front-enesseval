@@ -47,8 +47,15 @@ const SignupForm = ({ onBack }: SignupFormProps) => {
       const loadingToastId = toast.loading("Hesap oluşturuluyor..."); // Yükleme toast'ını göster
       console.log("Form verileri:", values);
 
-      // API'ye gönderilecek veriyi hazırla (passwordConfirm'i çıkar ve yok say, dönüşümleri API fonksiyonu yapacak)
-      const { passwordConfirm: _, ...userData } = values; // passwordConfirm'i _ ile yok say
+      // API'ye gönderilecek veriyi hazırla (passwordConfirm hariç manuel oluştur, dönüşümleri API fonksiyonu yapacak)
+      const userData = {
+         username: values.username,
+         email: values.email,
+         phone: values.phone,
+         gender: values.gender,
+         city: values.city,
+         password: values.password,
+      };
 
       try {
          // Yeni API fonksiyonunu çağır (dönüşümsüz veri ile)
