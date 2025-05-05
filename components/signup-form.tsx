@@ -47,11 +47,14 @@ const SignupForm = ({ onBack }: SignupFormProps) => {
       const loadingToastId = toast.loading("Hesap oluşturuluyor..."); // Yükleme toast'ını göster
       console.log("Form verileri:", values);
 
-      // API'ye gönderilecek veriyi hazırla (passwordConfirm hariç manuel oluştur, dönüşümleri API fonksiyonu yapacak)
+      // API'ye gönderilecek veriyi hazırla
+      // Telefon numarasının maskesini kaldır (+90XXXXXXXXXX formatına getir)
+      const unmaskedPhone = "+" + values.phone.replace(/\D/g, ""); // Sadece rakamları al ve başına + ekle
+
       const userData = {
          username: values.username,
          email: values.email,
-         phone: values.phone,
+         phone: unmaskedPhone, // Maskesiz numarayı gönder
          gender: values.gender,
          city: values.city,
          password: values.password,

@@ -1,6 +1,7 @@
 "use client"; // Framer Motion için Client Component
 import React from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 // Animasyon varyantları (loading.tsx'den alındı)
 const barVariants = {
@@ -37,10 +38,11 @@ function BackgroundLogo() {
                ))}
             </div>
             {/* Metin */}
-            <div className="flex flex-col items-center bg-gradient-to-br from-[#FB7C3E] to-[#9141E4] bg-clip-text">
+            <Image src="/text-logo.png" alt="Sound Connect Logo" width={250} height={250} />
+            {/* <div className="flex flex-col items-center bg-gradient-to-br from-[#FB7C3E] to-[#9141E4] bg-clip-text">
                <p className="uppercase text-4xl md:text-5xl font-bold text-transparent tracking-tight leading-tight md:leading-tight">sound</p>
                <p className="uppercase text-4xl md:text-5xl font-bold text-transparent tracking-tight leading-tight md:leading-tight">connect</p>
-            </div>
+            </div> */}
          </div>
       </>
    );
