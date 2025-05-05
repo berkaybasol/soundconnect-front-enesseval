@@ -1,10 +1,17 @@
 "use client"; // Mark this as a Client Component
 import React from "react";
 import { motion } from "framer-motion"; // Import motion
-import { Separator } from "@/components/ui/separator"; // Separator'ı tekrar import et
+import { Separator } from "@/components/ui/separator";
 import { FcGoogle } from "react-icons/fc";
 
-function Loading() {
+// Props tipini tanımla
+interface LoadingProps {
+   onLoginClick: () => void;
+   onSignupClick: () => void;
+   isFormActive: boolean; // Form aktifken butonları gizlemek veya stilini değiştirmek için
+}
+
+function Loading({ onLoginClick, onSignupClick, isFormActive }: LoadingProps) {
    // Animasyon varyantları
    const barVariants = {
       animate: (i: number) => ({
@@ -20,10 +27,12 @@ function Loading() {
    };
 
    return (
-      // Ana kapsayıcıyı dikey ve ortalanmış hale getir
-      <div className="fixed top-0 left-0 w-full h-full z-50 flex flex-col justify-center items-center overflow-hidden p-4">
+      // Ana kapsayıcıyı dikey ve ortalanmış hale getir (z-50 kaldırıldı)
+      <div className="fixed top-0 left-0 w-full h-full flex flex-col justify-center items-center overflow-hidden p-4">
          {/* Arka Plan Videosu ve Karartma */}
          <div className="absolute inset-0 z-[-2]">
+            {" "}
+            {/* Arka plan elemanları hala en altta */}
             <video autoPlay loop muted playsInline className="w-full h-full object-cover">
                <source src="/bg-video.mp4" type="video/mp4" />
                Tarayıcınız video etiketini desteklemiyor.
@@ -61,30 +70,36 @@ function Loading() {
             {/* Sloganı daha belirgin yap (font-extrabold, mb-8) */}
             <h2 className="text-3xl md:text-4xl font-extrabold text-white text-center mb-8">The Sound of Connection Starts Here.</h2>
 
-            {/* Butonlar */}
-            {/* Butonlara cursor-pointer, sabit yükseklik (h-10) ve içerik ortalama ekle */}
-            <button className="w-full h-10 rounded-lg text-white font-semibold bg-gradient-to-br from-[#fd8a49] to-[#8d75ff] hover:opacity-90 transition-opacity flex items-center justify-center cursor-pointer">
-               Giriş Yap
-            </button>
-            <button className="w-full h-10 rounded-lg text-white font-semibold bg-white/10 border border-white/20 hover:bg-white/20 transition-colors flex items-center justify-center cursor-pointer">
-               Kaydol
-            </button>
+            {/* Butonlar - Form aktif değilse göster */}
+            {!isFormActive && (
+               <>
+                  <button
+                     onClick={onLoginClick} // Tıklama olayını prop'tan al
+                     className="w-full h-10 rounded-lg text-white font-semibold bg-gradient-to-br from-[#fd8a49] to-[#8d75ff] hover:opacity-90 transition-opacity flex items-center justify-center cursor-pointer"
+                  >
+                     Giriş Yap
+                  </button>
+                  <button
+                     onClick={onSignupClick} // Tıklama olayını prop'tan al
+                     className="w-full h-10 rounded-lg text-white font-semibold bg-white/10 border border-white/20 hover:bg-white/20 transition-colors flex items-center justify-center cursor-pointer"
+                  >
+                     Kaydol
+                  </button>
 
-            {/* Ayırıcı */}
-            {/* Separator'ları "or" metninin iki yanına ekle */}
-            <div className="w-full flex items-center space-x-2 my-2">
-               <Separator className="flex-1 bg-white/20" />
-               <span className="text-gray-400 text-sm">veya</span>
-               <Separator className="flex-1 bg-white/20" />
-            </div>
+                  {/* Ayırıcı */}
+                  <div className="w-full flex items-center space-x-2 my-2">
+                     <Separator className="flex-1 bg-white/20" />
+                     <span className="text-gray-400 text-sm">veya</span>
+                     <Separator className="flex-1 bg-white/20" />
+                  </div>
 
-            {/* Google ile Devam Et Butonu */}
-            {/* Butonlara cursor-pointer, sabit yükseklik (h-10) ve içerik ortalama ekle */}
-            <button className="w-full h-10 rounded-lg text-white font-semibold bg-white/10 border border-white/20 hover:bg-white/20 transition-colors flex items-center justify-center space-x-2 cursor-pointer">
-               {/* Google ikonu yerine şimdilik 'G' */}
-               <FcGoogle />
-               <span>Google ile devam et</span>
-            </button>
+                  {/* Google ile Devam Et Butonu */}
+                  <button className="w-full h-10 rounded-lg text-white font-semibold bg-white/10 border border-white/20 hover:bg-white/20 transition-colors flex items-center justify-center space-x-2 cursor-pointer">
+                     <FcGoogle />
+                     <span>Google ile devam et</span>
+                  </button>
+               </>
+            )}
          </div>
       </div>
    );
