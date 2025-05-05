@@ -6,7 +6,6 @@ import { FcGoogle } from "react-icons/fc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"; // Select eklendi
 import { Separator } from "@/components/ui/separator";
 import { useForm } from "react-hook-form";
@@ -14,7 +13,7 @@ import { z } from "zod";
 import { registerSchema } from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner"; // sonner'ı import et
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { turkishCities } from "@/lib/constants"; // Şehir listesini import et
 import { registerUser } from "@/lib/api/auth"; // Yeni API fonksiyonunu import et
 
@@ -48,8 +47,8 @@ const SignupForm = ({ onBack }: SignupFormProps) => {
       const loadingToastId = toast.loading("Hesap oluşturuluyor..."); // Yükleme toast'ını göster
       console.log("Form verileri:", values);
 
-      // API'ye gönderilecek veriyi hazırla (passwordConfirm'i çıkar, dönüşümleri API fonksiyonu yapacak)
-      const { passwordConfirm, ...userData } = values;
+      // API'ye gönderilecek veriyi hazırla (passwordConfirm'i çıkar ve yok say, dönüşümleri API fonksiyonu yapacak)
+      const { passwordConfirm: _, ...userData } = values; // passwordConfirm'i _ ile yok say
 
       try {
          // Yeni API fonksiyonunu çağır (dönüşümsüz veri ile)
@@ -59,11 +58,18 @@ const SignupForm = ({ onBack }: SignupFormProps) => {
 
          // TODO: Başarı durumunda kullanıcıyı yönlendir veya mesaj göster
          // Örneğin: router.push('/login') veya bir başarı mesajı state'i güncelle
-      } catch (error: any) {
-         // Hata tipini any olarak alıp mesajını kullanabiliriz
+      } catch (error) {
+         // :any kaldırıldı
+         // Hata tipini kontrol et
+         let errorMessage = "Bilinmeyen bir hata oluştu.";
+         if (error instanceof Error) {
+            errorMessage = error.message; // Error instance ise mesajını kullan
+         } else if (typeof error === "string") {
+            errorMessage = error; // String ise doğrudan kullan
+         }
          console.error("Kayıt sırasında hata (axios):", error);
          // registerUser fonksiyonu zaten anlamlı bir hata mesajı fırlatıyor olmalı
-         toast.error(`Kayıt başarısız: ${error.message || "Bilinmeyen bir hata oluştu."}`, { id: loadingToastId }); // Hata toast'ını göster
+         toast.error(`Kayıt başarısız: ${errorMessage}`, { id: loadingToastId }); // Hata toast'ını göster
       } finally {
          setIsLoading(false); // Her durumda yüklenmeyi bitir
       }

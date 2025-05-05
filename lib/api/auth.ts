@@ -37,14 +37,29 @@ export const registerUser = async (inputData: RegisterInput) => {
 
       // Axios hatası mı kontrol et
       if (axios.isAxiosError(error)) {
-         const axiosError = error as AxiosError<any>; // Tip belirlemesi yapalım
+         // Hata yanıtının tipini unknown olarak belirtelim
+         const axiosError = error as AxiosError<unknown>;
          // Sunucudan gelen bir hata yanıtı var mı?
          if (axiosError.response) {
             console.error("API Hata Yanıtı:", axiosError.response.data);
-            // Sunucudan gelen hata mesajını veya veriyi fırlat
-            // API'nizin hata formatına göre burayı özelleştirebilirsiniz
-            const apiErrorMessage = axiosError.response.data?.message || JSON.stringify(axiosError.response.data);
-            throw new Error(apiErrorMessage || `API Hatası: ${axiosError.response.status}`);
+            let apiErrorMessage = `API Hatası: ${axiosError.response.status}`;
+            // Hata verisinin yapısını kontrol etmeye çalışalım
+            const responseData = axiosError.response.data;
+            if (typeof responseData === "object" && responseData !== null && "message" in responseData && typeof responseData.message === "string") {
+               // Eğer { message: '...' } formatında ise mesajı kullan
+               apiErrorMessage = responseData.message;
+            } else if (typeof responseData === "string" && responseData.length > 0) {
+               // Eğer sadece string ise onu kullan
+               apiErrorMessage = responseData;
+            } else {
+               // Diğer durumlarda JSON'a çevirmeyi dene veya status kodunu kullan
+               try {
+                  apiErrorMessage = JSON.stringify(responseData);
+               } catch (e) {
+                  // JSON'a çevrilemezse status kodunda kal
+               }
+            }
+            throw new Error(apiErrorMessage);
          } else if (axiosError.request) {
             // İstek yapıldı ama yanıt alınamadı (örn. ağ hatası)
             console.error("API Yanıtı Alınamadı:", axiosError.request);
