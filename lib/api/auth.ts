@@ -21,7 +21,7 @@ export const registerUser = async (inputData: RegisterInput) => {
       ...inputData,
       phone: inputData.phone.replace(/[()\s]/g, ""), // Formatı temizle
       gender: inputData.gender.toUpperCase(), // Büyük harfe çevir
-      city: inputData.city.toLocaleUpperCase("tr-TR"), // Büyük harfe çevir (TR locale)
+      city: inputData.city, // Büyük harfe çevir (TR locale)
       rePassword: inputData.password, // rePassword ekle
    };
 
