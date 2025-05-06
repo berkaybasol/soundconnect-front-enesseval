@@ -6,9 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { axiosInstance } from "@/lib/axiosInstance";
 import { z } from "zod";
 import { loginSchema } from "@/schemas/auth.schema";
 import { useForm } from "react-hook-form";
@@ -38,7 +36,7 @@ const LoginForm = ({ onBack }: LoginFormProps) => {
       const toastId = toast.loading("Giriş yapılıyor...");
 
       try {
-         const result = await loginUser(values);
+         await loginUser(values);
          toast.success("Giriş başarılı!", { id: toastId });
          // form.reset(); // Formu sıfırlamak isteyebilirsiniz
       } catch (error) {

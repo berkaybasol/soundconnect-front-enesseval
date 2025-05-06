@@ -36,10 +36,18 @@ export const registerUser = async (inputData: RegisterInput) => {
          if (axiosError.response) {
             let apiErrorMessage = `API Hatası: ${axiosError.response.status}`;
             // Hata verisinin yapısını kontrol etmeye çalışalım
-            const responseData = axiosError.response.data as any; // Daha esnek tip tanımı
-            if (responseData && responseData.details && Array.isArray(responseData.details) && responseData.details.length > 0 && typeof responseData.details[0] === "string") {
+            const responseData = axiosError.response.data as unknown; // Daha güvenli tip tanımı
+            if (
+               responseData &&
+               typeof responseData === "object" &&
+               responseData !== null &&
+               "details" in responseData &&
+               Array.isArray((responseData as { details: unknown }).details) &&
+               (responseData as { details: unknown[] }).details.length > 0 &&
+               typeof (responseData as { details: string[] }).details[0] === "string"
+            ) {
                // Eğer response.data.details bir dizi ve ilk elemanı string ise onu kullan
-               apiErrorMessage = responseData.details[0];
+               apiErrorMessage = (responseData as { details: string[] }).details[0];
             } else if (typeof responseData === "object" && responseData !== null && "message" in responseData && typeof responseData.message === "string") {
                // Eğer { message: '...' } formatında ise mesajı kullan
                apiErrorMessage = responseData.message;
@@ -91,10 +99,18 @@ export const loginUser = async (inputData: LoginInput) => {
          if (axiosError.response) {
             let apiErrorMessage = `API Hatası: ${axiosError.response.status}`;
             // Hata verisinin yapısını kontrol etmeye çalışalım
-            const responseData = axiosError.response.data as any; // Daha esnek tip tanımı
-            if (responseData && responseData.details && Array.isArray(responseData.details) && responseData.details.length > 0 && typeof responseData.details[0] === "string") {
+            const responseData = axiosError.response.data as unknown; // Daha güvenli tip tanımı
+            if (
+               responseData &&
+               typeof responseData === "object" &&
+               responseData !== null &&
+               "details" in responseData &&
+               Array.isArray((responseData as { details: unknown }).details) &&
+               (responseData as { details: unknown[] }).details.length > 0 &&
+               typeof (responseData as { details: string[] }).details[0] === "string"
+            ) {
                // Eğer response.data.details bir dizi ve ilk elemanı string ise onu kullan
-               apiErrorMessage = responseData.details[0];
+               apiErrorMessage = (responseData as { details: string[] }).details[0];
             } else if (typeof responseData === "object" && responseData !== null && "message" in responseData && typeof responseData.message === "string") {
                // Eğer { message: '...' } formatında ise mesajı kullan
                apiErrorMessage = responseData.message;
