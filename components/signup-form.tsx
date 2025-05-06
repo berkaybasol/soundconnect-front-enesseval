@@ -39,13 +39,10 @@ const SignupForm = ({ onBack }: SignupFormProps) => {
 
    // Yüklenme durumu için state ekleyelim
    const [isLoading, setIsLoading] = React.useState(false);
-   // const [apiError, setApiError] = React.useState<string | null>(null); // API hatası state'ini kaldırıyoruz
 
    const handleSubmit = async (values: z.infer<typeof registerSchema>) => {
       setIsLoading(true); // Yüklenmeyi başlat
-      // setApiError(null); // Önceki hatayı temizle - kaldırıldı
-      const loadingToastId = toast.loading("Hesap oluşturuluyor..."); // Yükleme toast'ını göster
-      console.log("Form verileri:", values);
+      const toastId = toast.loading("Hesap oluşturuluyor..."); // Yükleme toast'ını göster ve ID'sini al
 
       // API'ye gönderilecek veriyi hazırla
       // Telefon numarasının maskesini kaldır (+90XXXXXXXXXX formatına getir)
@@ -63,23 +60,20 @@ const SignupForm = ({ onBack }: SignupFormProps) => {
       try {
          // Yeni API fonksiyonunu çağır (dönüşümsüz veri ile)
          const result = await registerUser(userData);
-         console.log("Kayıt başarılı (axios):", result);
-         toast.success("Hesap başarıyla oluşturuldu!", { id: loadingToastId }); // Başarı toast'ını göster
+         console.log("res", result);
+         toast.success("Hesap başarıyla oluşturuldu!", { id: toastId }); // Başarı toast'ını ID ile güncelle
 
          // TODO: Başarı durumunda kullanıcıyı yönlendir veya mesaj göster
          // Örneğin: router.push('/login') veya bir başarı mesajı state'i güncelle
       } catch (error) {
-         // :any kaldırıldı
-         // Hata tipini kontrol et
          let errorMessage = "Bilinmeyen bir hata oluştu.";
          if (error instanceof Error) {
             errorMessage = error.message; // Error instance ise mesajını kullan
          } else if (typeof error === "string") {
             errorMessage = error; // String ise doğrudan kullan
          }
-         console.error("Kayıt sırasında hata (axios):", error);
          // registerUser fonksiyonu zaten anlamlı bir hata mesajı fırlatıyor olmalı
-         toast.error(`Kayıt başarısız: ${errorMessage}`, { id: loadingToastId }); // Hata toast'ını göster
+         toast.error(`Kayıt başarısız: ${errorMessage}`, { id: toastId }); // Hata toast'ını ID ile güncelle
       } finally {
          setIsLoading(false); // Her durumda yüklenmeyi bitir
       }

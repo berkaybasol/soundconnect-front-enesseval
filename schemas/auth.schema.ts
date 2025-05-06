@@ -34,3 +34,15 @@ export const registerSchema = z
       message: "Şifreler eşleşmiyor.",
       path: ["passwordConfirm"], // Hatanın hangi alana ait olduğunu belirtir
    });
+
+export const loginSchema = z.object({
+   username: z.string().nonempty({ message: "Kullanıcı adı alanı boş bırakılamaz." }),
+   password: z
+      .string()
+      .nonempty({ message: "Şifre alanı boş bırakılamaz." })
+      .min(8, { message: "Şifre en az 8 karakter olmalıdır." })
+      .regex(/[a-z]/, { message: "Şifre en az bir küçük harf içermelidir." })
+      .regex(/[A-Z]/, { message: "Şifre en az bir büyük harf içermelidir." })
+      .regex(/[0-9]/, { message: "Şifre en az bir rakam içermelidir." })
+      .regex(/[^a-zA-Z0-9]/, { message: "Şifre en az bir sembol içermelidir." }),
+});
