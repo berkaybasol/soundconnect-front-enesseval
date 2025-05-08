@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Backend API'nin temel URL'si
-const BASE_URL = "https://soundconnect.dev/api/v1"; // Sadece base URL'i buraya alıyoruz
+const BASE_URL = "https://api.soundconnect.dev"; // Sadece base URL'i buraya alıyoruz
 
 export const axiosInstance = axios.create({
    baseURL: BASE_URL,
