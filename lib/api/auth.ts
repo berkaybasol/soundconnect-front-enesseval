@@ -27,9 +27,9 @@ export const registerUser = async (inputData: RegisterInput) => {
 
       return response.data; // Başarılı yanıtın verisini döndür
    } catch (error) {
+      console.log("Register User Test için error buraya bak:", error);
       // Axios hatası mı kontrol et
       if (axios.isAxiosError(error)) {
-         console.log(error);
          // Hata yanıtının tipini unknown olarak belirtelim
          const axiosError = error as AxiosError<unknown>;
          // Sunucudan gelen bir hata yanıtı var mı?
@@ -91,6 +91,7 @@ export const loginUser = async (inputData: LoginInput) => {
       const response = await axiosInstance.post("/auth/login", inputData);
       return response.data; // Başarılı yanıtın verisini döndür
    } catch (error) {
+      console.log("LoginUser Test için error buraya bak:", error);
       // Axios hatası mı kontrol et
       if (axios.isAxiosError(error)) {
          // Hata yanıtının tipini unknown olarak belirtelim
