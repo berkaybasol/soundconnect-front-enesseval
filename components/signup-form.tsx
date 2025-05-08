@@ -98,9 +98,7 @@ const SignupForm = ({ onBack }: SignupFormProps) => {
                         name="username"
                         render={({ field }) => (
                            <FormItem className="grid-cols-1">
-                              {/* <FormLabel>Kullanıcı Adı</FormLabel> */}
                               <FormControl>
-                                 {/* onChange gereksiz, {...field} hallediyor */}
                                  <Input placeholder="Kullanıcı Adı" {...field} />
                               </FormControl>
                               <FormMessage />
@@ -116,8 +114,7 @@ const SignupForm = ({ onBack }: SignupFormProps) => {
                               <FormControl>
                                  <Input
                                     placeholder="+90 (XXX) XXX XX XX"
-                                    {...field} // onBlur, ref, value vb. için field'ı spread et
-                                    // Explicit value prop'unu kaldır, {...field} zaten içeriyor
+                                    {...field}
                                     onChange={(e) => {
                                        // onChange'i üzerine yaz
                                        let input = e.target.value.replace(/\D/g, ""); // Sadece rakamları al
@@ -161,9 +158,7 @@ const SignupForm = ({ onBack }: SignupFormProps) => {
                      name="email"
                      render={({ field }) => (
                         <FormItem className="grid-cols-1">
-                           {/* <FormLabel>E-posta</FormLabel> */}
                            <FormControl>
-                              {/* onChange gereksiz, {...field} hallediyor */}
                               <Input type="email" placeholder="example@mail.com" {...field} />
                            </FormControl>
                            <FormMessage />
@@ -177,10 +172,8 @@ const SignupForm = ({ onBack }: SignupFormProps) => {
                         name="gender"
                         render={({ field }) => (
                            <FormItem>
-                              {/* defaultValue'ı kaldır, FormField hallediyor */}
                               <Select onValueChange={field.onChange} value={field.value || ""}>
                                  <FormControl>
-                                    {/* SelectTrigger'a onBlur ekleyelim */}
                                     <SelectTrigger className="col-span-1 w-full" onBlur={field.onBlur}>
                                        <SelectValue placeholder="Cinsiyet seçiniz" />
                                     </SelectTrigger>
@@ -194,16 +187,13 @@ const SignupForm = ({ onBack }: SignupFormProps) => {
                            </FormItem>
                         )}
                      />
-                     {/* Şehir Alanı (Select olarak değiştirildi) */}
                      <FormField
                         control={form.control}
                         name="city"
                         render={({ field }) => (
                            <FormItem>
-                              {/* defaultValue'ı kaldır, FormField hallediyor */}
                               <Select onValueChange={field.onChange} value={field.value || ""}>
                                  <FormControl>
-                                    {/* SelectTrigger'a onBlur ekleyelim */}
                                     <SelectTrigger className="col-span-1 w-full" onBlur={field.onBlur}>
                                        <SelectValue placeholder="Şehir seçiniz" />
                                     </SelectTrigger>
@@ -228,9 +218,7 @@ const SignupForm = ({ onBack }: SignupFormProps) => {
                         name="password"
                         render={({ field }) => (
                            <FormItem className="grid-cols-1">
-                              {/* <FormLabel>Şifre</FormLabel> */}
                               <FormControl>
-                                 {/* onChange gereksiz, {...field} hallediyor */}
                                  <Input type="password" placeholder="Şifre" {...field} />
                               </FormControl>
                               <FormMessage />
@@ -243,9 +231,7 @@ const SignupForm = ({ onBack }: SignupFormProps) => {
                         name="passwordConfirm"
                         render={({ field }) => (
                            <FormItem className="grid-cols-1">
-                              {/* <FormLabel>Şifre Tekrarı</FormLabel> */}
                               <FormControl>
-                                 {/* onChange gereksiz, {...field} hallediyor */}
                                  <Input type="password" placeholder="Şifre Tekrarı" {...field} />
                               </FormControl>
                               <FormMessage />
@@ -253,8 +239,6 @@ const SignupForm = ({ onBack }: SignupFormProps) => {
                         )}
                      />
                   </div>
-                  {/* Hata mesajı gösterimini kaldırıyoruz */}
-                  {/* {apiError && <p className="text-sm font-medium text-destructive mb-4">{apiError}</p>} */}
                   <Button type="submit" className="w-full bg-gradient-to-br from-[#FB7C3E] to-[#9141E4] hover:opacity-90 transition-opacity" disabled={isLoading}>
                      Kayıt Ol
                   </Button>
@@ -262,15 +246,11 @@ const SignupForm = ({ onBack }: SignupFormProps) => {
             </Form>
          </CardContent>
          <CardFooter className="flex flex-col space-y-4 pt-4">
-            {" "}
-            {/* pt-4 eklendi */}
-            {/* Ayırıcı */}
             <div className="w-full flex items-center space-x-2">
                <Separator className="flex-1 bg-white/20" />
-               <span className="text-xs text-gray-400">VEYA</span> {/* Stil güncellendi */}
+               <span className="text-xs text-gray-400">VEYA</span>
                <Separator className="flex-1 bg-white/20" />
             </div>
-            {/* Google ile Devam Et Butonu */}
             <Button variant="outline" className="w-full bg-white/10 border-white/20 hover:bg-white/20">
                <FcGoogle className="mr-2 h-4 w-4" /> Google ile devam et
             </Button>
