@@ -16,12 +16,15 @@ import { toast } from "sonner"; // sonner'ı import et
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { turkishCities } from "@/lib/constants"; // Şehir listesini import et
 import { registerUser } from "@/lib/api/auth"; // Yeni API fonksiyonunu import et
+import { useAuth } from "@/context/AuthContext";
 
 interface SignupFormProps {
    onBack: () => void; // Geri dönme fonksiyonu
 }
 
 const SignupForm = ({ onBack }: SignupFormProps) => {
+   const { login: contextLogin } = useAuth();
+
    const form = useForm<z.infer<typeof registerSchema>>({
       resolver: zodResolver(registerSchema),
       mode: "onBlur", // Doğrulamayı onBlur'da tetikle
@@ -60,7 +63,7 @@ const SignupForm = ({ onBack }: SignupFormProps) => {
       try {
          // Yeni API fonksiyonunu çağır (dönüşümsüz veri ile)
          const result = await registerUser(userData);
-         console.log("res", result);
+         if (result.success && result.data) contextLogin(result);
          toast.success("Hesap başarıyla oluşturuldu!", { id: toastId }); // Başarı toast'ını ID ile güncelle
 
          // TODO: Başarı durumunda kullanıcıyı yönlendir veya mesaj göster

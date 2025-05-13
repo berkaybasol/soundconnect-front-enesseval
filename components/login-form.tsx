@@ -14,6 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { toast } from "sonner";
 import { loginUser } from "@/lib/api/auth";
+import { useAuth } from "@/context/AuthContext";
 
 interface LoginFormProps {
    onBack: () => void; // Geri dönme fonksiyonu
@@ -21,6 +22,8 @@ interface LoginFormProps {
 
 const LoginForm = ({ onBack }: LoginFormProps) => {
    const [loading, setLoading] = useState(false);
+
+   const { login: contextLogin } = useAuth();
 
    const form = useForm<z.infer<typeof loginSchema>>({
       resolver: zodResolver(loginSchema),
@@ -36,7 +39,10 @@ const LoginForm = ({ onBack }: LoginFormProps) => {
       const toastId = toast.loading("Giriş yapılıyor...");
 
       try {
-         await loginUser(values);
+         const response = await loginUser(values);
+
+         if (response.success && response.data) contextLogin(response);
+
          toast.success("Giriş başarılı!", { id: toastId });
          // form.reset(); // Formu sıfırlamak isteyebilirsiniz
       } catch (error) {

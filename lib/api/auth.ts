@@ -2,6 +2,7 @@ import axios, { AxiosError } from "axios"; // AxiosError tipi için hala gerekli
 import { z } from "zod";
 import { loginSchema, registerSchema } from "@/schemas/auth.schema"; // Şemayı import edelim, payload tipini belirlemek için
 import { axiosInstance } from "@/lib/axiosInstance"; // Oluşturduğumuz instance'ı import et
+import { saveAuthDataForLocalDevelopment } from "../saveTokenForDevMode";
 
 // Fonksiyona gönderilecek payload tipi (şemadan türetilmiş)
 type RegisterInput = Omit<z.infer<typeof registerSchema>, "passwordConfirm">;
@@ -27,7 +28,6 @@ export const registerUser = async (inputData: RegisterInput) => {
 
       return response.data; // Başarılı yanıtın verisini döndür
    } catch (error) {
-      console.log("Register User Test için error buraya bak:", error);
       // Axios hatası mı kontrol et
       if (axios.isAxiosError(error)) {
          // Hata yanıtının tipini unknown olarak belirtelim
@@ -89,9 +89,11 @@ type LoginInput = z.infer<typeof loginSchema>;
 export const loginUser = async (inputData: LoginInput) => {
    try {
       const response = await axiosInstance.post("/auth/login", inputData);
+
+      console.log("loginres", response);
       return response.data; // Başarılı yanıtın verisini döndür
    } catch (error) {
-      console.log("LoginUser Test için error buraya bak:", error);
+      console.log("loginerror", error);
       // Axios hatası mı kontrol et
       if (axios.isAxiosError(error)) {
          // Hata yanıtının tipini unknown olarak belirtelim
