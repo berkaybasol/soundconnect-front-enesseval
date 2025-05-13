@@ -1,13 +1,11 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useAuth } from "@/context/AuthContext";
 import { Building2, Landmark, MapPin, Music, Shield, Users } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
 function AdminPage() {
-   const { logout } = useAuth();
    return (
       <div className="space-y-6">
          <div className="flex items-center justify-between">
