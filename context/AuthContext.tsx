@@ -117,7 +117,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
       // Opsiyonel: Backend'de token'ı geçersiz kılmak için API çağrısı yapılabilir.
       // await axiosInstance.post('/auth/logout');
-      router.push("/login"); // Kullanıcıyı login sayfasına yönlendir
+      router.push("/"); // Kullanıcıyı login sayfasına yönlendir
    };
 
    return <AuthContext.Provider value={{ ...authState, login, logout }}>{children}</AuthContext.Provider>;

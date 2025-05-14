@@ -16,12 +16,10 @@ export const AuthGuard = ({ children, allowedRoles }: AuthGuardProps) => {
    useEffect(() => {
       // Yükleme tamamlanmadıysa veya kullanıcı zaten kimlik doğrulamışsa ve roller uygunsa bir şey yapma
       if (isLoading) {
-         console.log("[AuthGuard] Auth state is loading...");
          return; // Yükleme bitene kadar bekle
       }
 
       if (!isAuthenticated) {
-         console.log("[AuthGuard] User not authenticated. Redirecting to /login.");
          router.push(`/`); // Giriş sonrası geri dönmek için redirect query'si ekle
          return;
       }
@@ -30,12 +28,10 @@ export const AuthGuard = ({ children, allowedRoles }: AuthGuardProps) => {
       if (allowedRoles && allowedRoles.length > 0) {
          const hasRequiredRole = roles.some((role) => allowedRoles.includes(role));
          if (!hasRequiredRole) {
-            console.log("[AuthGuard] User does not have required roles. Redirecting to /unauthorized or /.");
             router.push("/unauthorized"); // Veya ana sayfaya: router.push('/');
             return;
          }
       }
-      console.log("[AuthGuard] User authenticated and has required roles (if any). Access granted.");
    }, [isAuthenticated, isLoading, roles, router, allowedRoles]);
 
    // Yükleme sırasında veya kimlik doğrulaması başarısızsa (yönlendirme gerçekleşene kadar) boş veya bir yükleyici göster
