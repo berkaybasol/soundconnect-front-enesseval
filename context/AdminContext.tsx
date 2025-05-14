@@ -25,12 +25,12 @@ const AdminContext = createContext<{
    roles: [],
    permissions: [],
    systemOverview: {
-      usersLength: 0,
-      citiesLength: 0,
+      usersLenght: 0,
+      citiesLenght: 0,
       districtsLenght: 0,
       venuesLenght: 0,
-      rolesLength: 0,
-      permissionsLength: 0,
+      rolesLenght: 0,
+      permissionsLenght: 0,
    },
 });
 
@@ -44,12 +44,12 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
    const [roles, setRoles] = useState<Role[]>([]);
    const [permissions, setPermissions] = useState<Permission[]>([]);
    const [systemOverview, setSystemOverview] = useState<SystemOverview>({
-      usersLength: 0,
-      citiesLength: 0,
+      usersLenght: 0,
+      citiesLenght: 0,
       districtsLenght: 0,
       venuesLenght: 0,
-      rolesLength: 0,
-      permissionsLength: 0,
+      rolesLenght: 0,
+      permissionsLenght: 0,
    });
 
    useEffect(() => {
@@ -132,10 +132,11 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
       fetchDistrict();
       fetchVenue();
       if (userRoles.includes("ROLE_OWNER")) {
+         console.log("first");
          fetchRoles();
          fetchPermissions();
       }
-   }, []);
+   }, [userRoles]);
 
    return <AdminContext.Provider value={{ users, cities, districts, venues, roles, permissions, systemOverview }}>{children}</AdminContext.Provider>;
 };

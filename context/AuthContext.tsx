@@ -46,11 +46,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                isLoading: false,
             });
          } else {
-            console.log("[AuthContext] No token found in localStorage.");
             setAuthState((prev) => ({ ...prev, isLoading: false }));
          }
       } catch (error) {
-         console.error("[AuthContext] Error reading from localStorage:", error);
          setAuthState((prev) => ({ ...prev, isLoading: false }));
          // localStorage bozuksa temizleyelim
          localStorage.removeItem(LOCAL_STORAGE_AUTH_TOKEN_KEY);
@@ -73,7 +71,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             // ***** YENİ EKLENEN KISIM: localStorage'a KAYDETME *****
             localStorage.setItem(LOCAL_STORAGE_AUTH_TOKEN_KEY, token);
             localStorage.setItem(LOCAL_STORAGE_USER_ROLES_KEY, JSON.stringify(roles));
-            console.log("[AuthContext] Token and roles saved to localStorage.");
             // ***** YENİ EKLENEN KISIM SONU *****
 
             setAuthState({
@@ -82,7 +79,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                isAuthenticated: true,
                isLoading: false,
             });
-            console.log("[AuthContext] User logged in. Token:", token, "Roles:", roles);
 
             // Giriş sonrası yönlendirme
             if (roles.includes("ROLE_ADMIN") || roles.includes("ROLE_OWNER")) {
@@ -93,20 +89,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                router.push("/");
             }
          } catch (error) {
-            console.error("[AuthContext] Error saving to localStorage during login:", error);
             // localStorage'a yazma hatası olursa kullanıcıya bilgi verilebilir
             // ve state'i login olmamış gibi bırakabiliriz.
             setAuthState((prev) => ({ ...prev, isAuthenticated: false, token: null, roles: [] }));
          }
       } else {
-         console.error("[AuthContext] Login failed or token not provided in authData:", authData);
          // Hata durumunda state'i login olmamış gibi bırak
          setAuthState((prev) => ({ ...prev, isAuthenticated: false, token: null, roles: [] }));
       }
    };
 
    const logout = () => {
-      console.log("[AuthContext] Logging out user...");
       localStorage.removeItem(LOCAL_STORAGE_AUTH_TOKEN_KEY);
       localStorage.removeItem(LOCAL_STORAGE_USER_ROLES_KEY);
       setAuthState({

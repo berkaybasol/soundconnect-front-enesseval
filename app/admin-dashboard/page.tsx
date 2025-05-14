@@ -85,11 +85,11 @@ function AdminPage() {
                   <div className="grid gap-6 md:grid-cols-3">
                      <div className="flex flex-col space-y-1.5">
                         <span className="text-sm text-zinc-400">Aktif Kullanıcılar</span>
-                        <span className="text-3xl font-bold text-[#FB7C3E]">{systemOverview.usersLength === 0 ? "0" : systemOverview.usersLength}</span>
+                        <span className="text-3xl font-bold text-[#FB7C3E]">{systemOverview.usersLenght === 0 ? "0" : systemOverview.usersLenght}</span>
                      </div>
                      <div className="flex flex-col space-y-1.5">
                         <span className="text-sm text-zinc-400">Toplam Şehirler</span>
-                        <span className="text-3xl font-bold text-[#9141E4]">{systemOverview.citiesLength === 0 ? "0" : systemOverview.citiesLength}</span>
+                        <span className="text-3xl font-bold text-[#9141E4]">{systemOverview.citiesLenght === 0 ? "0" : systemOverview.citiesLenght}</span>
                      </div>
                      <div className="flex flex-col space-y-1.5">
                         <span className="text-sm text-zinc-400">Toplam İlçeler</span>
@@ -103,11 +103,11 @@ function AdminPage() {
                         <>
                            <div className="flex flex-col space-y-1.5">
                               <span className="text-sm text-zinc-400">Roller</span>
-                              <span className="text-3xl font-bold text-[#FB7C3E]">{systemOverview.rolesLength === 0 ? "0" : systemOverview.rolesLength}</span>
+                              <span className="text-3xl font-bold text-[#FB7C3E]">{systemOverview.rolesLenght === 0 ? "0" : systemOverview.rolesLenght}</span>
                            </div>
                            <div className="flex flex-col space-y-1.5">
                               <span className="text-sm text-zinc-400">İzinler</span>
-                              <span className="text-3xl font-bold text-[#9141E4]">{systemOverview.permissionsLength === 0 ? "0" : systemOverview.permissionsLength}</span>
+                              <span className="text-3xl font-bold text-[#9141E4]">{systemOverview.permissionsLenght === 0 ? "0" : systemOverview.permissionsLenght}</span>
                            </div>
                         </>
                      )}

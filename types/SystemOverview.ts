@@ -1,8 +1,8 @@
 export interface SystemOverview {
-   usersLength: number;
-   citiesLength: number;
+   usersLenght: number;
+   citiesLenght: number;
    districtsLenght: number;
    venuesLenght: number;
-   rolesLength?: number;
-   permissionsLength?: number;
+   rolesLenght?: number;
+   permissionsLenght?: number;
 }
