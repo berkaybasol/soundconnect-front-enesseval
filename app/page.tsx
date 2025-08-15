@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import BackgroundLogo from "@/components/background-logo"; // Sabit kısım
 import InitialActions from "@/components/initial-actions"; // Başlangıç butonları
 import RegisterForm from "@/components/register-form";
+import LoginForm from "@/components/login-form";
 // import LoginForm from "@/components/login-form";
 // import SignupForm from "@/components/signup-form";
 
@@ -76,6 +77,7 @@ export default function Home() {
               className="w-full flex justify-center" // LoginForm kendi genişliğini ayarlar
             >
               {/* LoginForm zaten card stilini içeriyor */}
+              <LoginForm onBack={showInitial} />
             </motion.div>
           )}
 

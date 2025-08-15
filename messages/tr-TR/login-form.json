@@ -1,0 +1,7 @@
+{
+    "usernameMinLength": "Kullanıcı adı en az 3 karakter olmalıdır",
+    "passwordMinLength": "Şifre en az 8 karakter olmalıdır",
+    "passwordMaxLength": "Şifre en fazla 20 karakter olmalıdır",
+    "passwordComplexity": "Şifre en az 1 büyük harf, 1 küçük harf, 1 rakam ve 1 özel karakter içermelidir",
+    "rePasswordMinLength": "Şifre tekrarı en az 8 karakter olmalıdır"
+}

@@ -1,8 +1,16 @@
 {
-    "ROLE_VENUE":"Mekân",
-    "ROLE_MUSICIAN":"Müzisyen",
-    "ROLE_LISTENER":"Dinleyici",
-    "ROLE_STUDIO":"Stüdyo",
-    "ROLE_ORGANIZER":"Organizatör",
-    "ROLE_PRODUCER":"Yapımcı / Prodüktör"
+    "ROLE_VENUE": "Mekân",
+    "ROLE_MUSICIAN": "Müzisyen",
+    "ROLE_LISTENER": "Dinleyici",
+    "ROLE_STUDIO": "Stüdyo",
+    "ROLE_ORGANIZER": "Organizatör",
+    "ROLE_PRODUCER": "Yapımcı / Prodüktör",
+    "usernameMinLength": "Kullanıcı adı en az 3 karakter olmalıdır",
+    "emailInvalid": "Geçerli bir e-posta adresi giriniz",
+    "passwordMinLength": "Şifre en az 8 karakter olmalıdır",
+    "passwordMaxLength": "Şifre en fazla 20 karakter olmalıdır",
+    "passwordComplexity": "Şifre en az 1 büyük harf, 1 küçük harf, 1 rakam ve 1 özel karakter içermelidir",
+    "rePasswordMinLength": "Şifre tekrarı en az 8 karakter olmalıdır",
+    "roleRequired": "Lütfen bir rol seçiniz",
+    "passwordMismatch": "Şifreler eşleşmiyor"
 }

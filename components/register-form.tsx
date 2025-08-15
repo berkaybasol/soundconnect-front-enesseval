@@ -34,59 +34,52 @@ import { Role } from "@/types/role.types";
 import { LoaderIcon } from "lucide-react";
 import axiosInstance from "@/lib/axios-instance";
 import { useTranslations } from "next-intl";
+import { createRegisterSchema, RegisterFormData } from "@/schemas/auth.schema";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-// Rol seçenekleri
-const roles = [
-  { value: "ROLE_OWNER", label: "Sahip" },
-  { value: "ROLE_MUSICIAN", label: "Müzisyen" },
-  { value: "ROLE_LISTENER", label: "Dinleyici" },
-  { value: "ROLE_STUDIO", label: "Stüdyo" },
-  { value: "ROLE_ORGANIZER", label: "Organizatör" },
-  { value: "ROLE_PRODUCER", label: "Yapımcı" },
-];
-
-// Form şeması
-const registerSchema = z
-  .object({
-    username: z.string().min(3, "Kullanıcı adı en az 3 karakter olmalıdır"),
-    email: z.string().email("Geçerli bir e-posta adresi giriniz"),
-    password: z.string().min(6, "Şifre en az 6 karakter olmalıdır"),
-    rePassword: z.string().min(6, "Şifre tekrarı en az 6 karakter olmalıdır"),
-    role: z.string().min(1, "Lütfen bir rol seçiniz"),
-  })
-  .refine((data) => data.password === data.rePassword, {
-    message: "Şifreler eşleşmiyor",
-    path: ["rePassword"],
-  });
-
-interface RegisterFormProps {
-  onBack: () => void;
-}
-
-function RegisterForm({ onBack }: RegisterFormProps) {
-  const [isLoading, setIsLoading] = React.useState(false);
+function RegisterForm({ onBack }: { onBack: () => void }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [rolesLoading, setRolesLoading] = useState(true);
   const [roles, setRoles] = useState<Role[] | null>(null);
+  const router = useRouter();
 
   const registerIntl = useTranslations("registerForm");
 
+  const registerSchema = createRegisterSchema(registerIntl);
+
   useEffect(() => {
     const getRoles = async () => {
-      const res = await axiosInstance.get("/roles/get-all-roles");
+      try {
+        setRolesLoading(true);
+        const res = await axiosInstance.get("/roles/get-all-roles");
 
-      if (res.data) {
-        const filteredRole = res.data.data.filter(
-          (role: Role) =>
-            role.name !== "ROLE_OWNER" &&
-            role.name !== "ROLE_USER" &&
-            role.name !== "ROLE_ADMIN"
+        if (res.data && res.data.success) {
+          const filteredRole = res.data.data.filter(
+            (role: Role) =>
+              role.name !== "ROLE_OWNER" &&
+              role.name !== "ROLE_USER" &&
+              role.name !== "ROLE_ADMIN"
+          );
+          setRoles(filteredRole);
+        } else {
+          console.log(res.data);
+          toast.error("Roller yüklenirken bir hata oluştu");
+        }
+      } catch (error) {
+        console.error("Roller yüklenirken hata:", error);
+        toast.error(
+          "Roller yüklenirken bir hata oluştu. Lütfen sayfayı yenileyin."
         );
-        setRoles(filteredRole);
-      } else console.log(res.data);
+        setRoles([]);
+      } finally {
+        setRolesLoading(false);
+      }
     };
     getRoles();
   }, []);
 
-  const form = useForm<z.infer<typeof registerSchema>>({
+  const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
     mode: "onBlur",
     defaultValues: {
@@ -98,10 +91,9 @@ function RegisterForm({ onBack }: RegisterFormProps) {
     },
   });
 
-  const handleSubmit = async (values: z.infer<typeof registerSchema>) => {
+  const handleSubmit = async (values: RegisterFormData) => {
     setIsLoading(true);
-
-    console.log(values);
+    const toastId = toast.loading("Kayıt işlemi yapılıyor...");
 
     try {
       // API çağrısı burada yapılacak
@@ -113,12 +105,27 @@ function RegisterForm({ onBack }: RegisterFormProps) {
         role: values.role,
       };
 
-      console.log("Kayıt verileri:", userData);
-      // TODO: API çağrısını buraya ekle
+      const response = await axiosInstance.post("auth/register", userData);
+
+      toast.success(
+        "Kayıt başarılı, hesabınızı doğrulamanız için mail adresinizi kontrol ediniz.",
+        {
+          id: toastId,
+        }
+      );
+
+      router.push("/verify-email/info?email=" + values.email);
     } catch (error) {
-      console.error("Kayıt hatası:", error);
+      let errorMessage = "Bilinmeyen bir hata oluştu.";
+      if (error instanceof Error) {
+        errorMessage = error.message; // Error instance ise mesajını kullan
+      } else if (typeof error === "string") {
+        errorMessage = error; // String ise doğrudan kullan
+      }
+      // registerUser fonksiyonu zaten anlamlı bir hata mesajı fırlatıyor olmalı
+      toast.error(`Kayıt başarısız: ${errorMessage}`, { id: toastId }); // Hata toast'ını ID ile güncelle
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Her durumda yüklenmeyi bitir
     }
   };
 
@@ -269,7 +276,7 @@ function RegisterForm({ onBack }: RegisterFormProps) {
             <Button
               type="submit"
               className="w-full bg-gradient-to-br from-[#FB7C3E] to-[#9141E4] hover:opacity-90 transition-opacity"
-              disabled={isLoading}
+              disabled={isLoading || roles === null}
             >
               {isLoading ? "Kayıt Oluşturuluyor..." : "Kayıt Ol"}
             </Button>
